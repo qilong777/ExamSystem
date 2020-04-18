@@ -1,32 +1,25 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 const Home = () => import('views/Home')
-const Discuss = () => import('views/Discuss')
-const Message = () => import('views/Message')
-const Profile = () => import('views/Profile')
+const Common = () => import('views/Common')
+const Login = () => import('views/Login')
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    redirect: '/home'
+    component: Common,
+    children: [
+      {
+        path: '/home',
+        component: Home
+      }
+    ]
   },
   {
-    path: '/home',
-    component: Home
-  },
-  {
-    path: '/discuss',
-    component: Discuss
-  },
-  {
-    path: '/message',
-    component: Message
-  },
-  {
-    path: '/profile',
-    component: Profile
+    path: '/login',
+    component: Login
   }
 
 ]

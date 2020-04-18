@@ -2,19 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import 'amfe-flexible'
-import {
-  Tabbar, TabbarItem,
-  Icon,
-  NavBar
-} from 'vant'
+import './plugins/element.js'
 
-Vue
-  .use(Tabbar).use(TabbarItem)
-  .use(Icon)
-  .use(NavBar)
+import api from 'api'
 
 Vue.config.productionTip = false
+
+Vue.prototype.$api = api
 
 new Vue({
   router,
