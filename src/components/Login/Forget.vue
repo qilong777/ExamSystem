@@ -29,6 +29,7 @@
 
 <script>
 export default {
+  name: 'Forget',
   data() {
     return {
       // 定时器

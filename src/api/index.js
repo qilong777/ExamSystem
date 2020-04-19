@@ -36,9 +36,23 @@ const changePassword = (data) => {
   })
 }
 
+// 判断用户是否登录
+const isLogin = () => {
+  const url = `/api/user/isLogined`
+  return request({ url })
+}
+
+// 自动登录
+const autoLogin = () => {
+  const url = `/api/user/autoLogin`
+  return request({ url })
+}
+
 export default {
   login,
   emailLogin,
   sendCode,
-  changePassword
+  changePassword,
+  isLogin,
+  autoLogin
 }

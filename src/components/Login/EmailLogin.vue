@@ -13,7 +13,7 @@
       <!-- 邮箱验证码 -->
       <el-form-item prop="code" label="邮箱验证码">
         <el-input v-model="loginForm.code" placeholder="请输入邮箱验证码" style="width:60%"></el-input>
-        <a href="#" class="send-code-btn" @click="sendCode">{{SendTx}}</a>
+        <a href="#" class="send-code-btn" @click.prevent="sendCode">{{SendTx}}</a>
       </el-form-item>
       <!--  -->
       <el-form-item class="check-wrapper">
@@ -29,6 +29,7 @@
 
 <script>
 export default {
+  name: 'EmailLogin',
   data() {
     return {
       // 定时器
@@ -84,6 +85,13 @@ export default {
     // 发送邮箱验证码
     async sendCode() {
       if (this.loginForm.email !== '') {
+        if (this.timer) {
+          this.$message({
+            message: '请等待60s后再发送',
+            type: 'error'
+          })
+          return
+        }
         const res = await this.$api.sendCode(this.loginForm.email)
         if (res.status === 1) {
           this.$message({
@@ -117,6 +125,10 @@ export default {
               message: '登录成功',
               type: 'success'
             })
+            if (this.loginForm.checked) {
+              this.$cookie.setItem('userInfo', res.userInfo, 7)
+            }
+            this.$router.push('/')
           } else {
             this.$message({
               message: res.msg,

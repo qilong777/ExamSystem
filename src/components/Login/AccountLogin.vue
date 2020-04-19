@@ -34,6 +34,7 @@
 import { verifySrc } from '@/baseConst'
 
 export default {
+  name: 'AccountLogin',
   data() {
     return {
       verifySrc,
@@ -76,6 +77,15 @@ export default {
               message: '登录成功',
               type: 'success'
             })
+            if (this.loginForm.checked) {
+              let id = this.loginForm.id
+              let password = this.loginForm.password
+              this.$cookie.setItem('userInfo', JSON.stringify({
+                id,
+                password
+              }), 7)
+            }
+            this.$router.push('/')
           } else {
             this.changeVerify()
             this.$message({
