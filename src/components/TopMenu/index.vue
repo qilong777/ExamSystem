@@ -45,7 +45,8 @@ export default {
         home: '首页',
         practice: '在线练习',
         exam: '在线考试',
-        error: '我的错题'
+        error: '我的错题',
+        grade: '我的成绩'
       },
       circleUrl: 'http://localhost:8080/logo.png'
 
