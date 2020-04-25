@@ -24,7 +24,7 @@
       </el-form-item>
       <!-- 按钮区域 -->
       <el-form-item class="btns" label-width="0px">
-        <el-button type="success" @click="login" class="login-btn" >立即登录</el-button>
+        <el-button :loading="loginLoading" type="success" @click="login" class="login-btn" >{{loginTx}}</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -60,6 +60,16 @@ export default {
         verify: [
           { required: true, message: '请输入验证码', trigger: 'blur' }
         ]
+      },
+      loginLoading: false
+    }
+  },
+  computed: {
+    loginTx() {
+      if (this.loginLoading) {
+        return '登录中'
+      } else {
+        return '立即登录'
       }
     }
   },
@@ -71,7 +81,9 @@ export default {
     login() {
       this.$refs.loginFormRef.validate(async valid => {
         if (valid) {
+          this.loginLoading = true
           const res = await this.$api.login(this.loginForm)
+          this.loginLoading = false
           if (res.status === 1) {
             this.$message({
               message: '登录成功',
@@ -79,7 +91,7 @@ export default {
             })
             if (this.loginForm.checked) {
               let id = this.loginForm.id
-              let password = this.loginForm.password
+              let password = this.$md5(this.loginForm.password)
               this.$cookie.setItem('userInfo', JSON.stringify({
                 id,
                 password

@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper">
     <TopMenu></TopMenu>
+    <router-view class="content"></router-view>
   </div>
 </template>
 
@@ -20,5 +21,11 @@ export default {
 </script>
 
 <style>
-
+.wrapper{
+  background: #eee;
+  min-height: 100%;
+}
+.content{
+  padding-top: 70px;
+}
 </style>

@@ -10,7 +10,7 @@
             <EmailLogin></EmailLogin>
           </el-tab-pane>
           <el-tab-pane :lazy="true" label="忘记密码" name="3">
-            <Forget></Forget>
+            <Forget @toLogin="changeActiveName"></Forget>
           </el-tab-pane>
         </el-tabs>
       </main>
@@ -31,7 +31,9 @@ export default {
     }
   },
   methods: {
-
+    changeActiveName(index) {
+      this.activeName = index.toString()
+    }
   },
   components: {
     AcountLogin, EmailLogin, Forget
@@ -43,13 +45,12 @@ export default {
 <style lang="scss">
 .login{
   height:100%;
-  background: #fff url('//static.nowcoder.com/images/res/infoComplete/bg.jpg') no-repeat top center;
+  background: #fff url('../../assets/images/bg.jpg') no-repeat top center;
   background-size: cover;
   .login-box {
     width: 600px;
     margin: 0 auto;
     padding-top: 70px;
-    padding-bottom: 250px;
     main{
       border: 1px solid #d6d6d6;
       border-radius: 4px;
@@ -73,11 +74,16 @@ export default {
           width: 40%;
           height: 100%;
           text-align: center;
-          top: 2px;
+          top: 1px;
           left: -2px;
           background-color: #67C23A;
           z-index: 10;
           color: #fff;
+          border-radius: 0;
+          padding: 13px 22px;
+          span{
+            margin-left: -3px;
+          }
         }
 
       }

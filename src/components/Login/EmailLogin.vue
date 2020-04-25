@@ -13,7 +13,8 @@
       <!-- 邮箱验证码 -->
       <el-form-item prop="code" label="邮箱验证码">
         <el-input v-model="loginForm.code" placeholder="请输入邮箱验证码" style="width:60%"></el-input>
-        <a href="#" class="send-code-btn" @click.prevent="sendCode">{{SendTx}}</a>
+        <el-button :loading="sendLoading" class="send-code-btn" type="success" :disabled="timer != null" @click.prevent="sendCode">{{SendTx}}</el-button>
+        <!-- <a href="#" class="send-code-btn" @click.prevent="sendCode">{{SendTx}}</a> -->
       </el-form-item>
       <!--  -->
       <el-form-item class="check-wrapper">
@@ -21,7 +22,7 @@
       </el-form-item>
       <!-- 按钮区域 -->
       <el-form-item class="btns" label-width="0px">
-        <el-button type="success" @click="login" class="login-btn" >立即登录</el-button>
+        <el-button :loading="loginLoading" type="success" @click="login" class="login-btn" >{{loginTx}}</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -52,15 +53,27 @@ export default {
         code: [
           { required: true, message: '请输入邮箱验证码', trigger: 'blur' }
         ]
-      }
+      },
+      sendLoading: false,
+      loginLoading: false
     }
   },
   computed: {
     SendTx() {
       if (this.timer === null) {
+        if (this.sendLoading) {
+          return ''
+        }
         return '发送验证码'
       } else {
         return this.remainTime + 's'
+      }
+    },
+    loginTx() {
+      if (this.loginLoading) {
+        return '登录中'
+      } else {
+        return '立即登录'
       }
     }
   },
@@ -92,7 +105,9 @@ export default {
           })
           return
         }
+        this.sendLoading = true
         const res = await this.$api.sendCode(this.loginForm.email)
+        this.sendLoading = false
         if (res.status === 1) {
           this.$message({
             message: '验证码发送成功',
@@ -119,7 +134,9 @@ export default {
     login() {
       this.$refs.loginFormRef.validate(async valid => {
         if (valid) {
+          this.loginLoading = true
           const res = await this.$api.emailLogin(this.loginForm)
+          this.loginLoading = false
           if (res.status === 1) {
             this.$message({
               message: '登录成功',

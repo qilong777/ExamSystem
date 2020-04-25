@@ -1,39 +1,139 @@
 <template>
-  <el-menu
-    :default-active="activeIndex2"
-    class="el-menu-demo"
-    mode="horizontal"
-    @select="handleSelect"
-    background-color="#545c64"
-    text-color="#fff"
-    active-text-color="#ffd04b"
-  >
-    <el-menu-item index="1">处理中心</el-menu-item>
-    <el-submenu index="2">
-      <template slot="title">我的工作台</template>
-      <el-menu-item index="2-1">选项1</el-menu-item>
-      <el-menu-item index="2-2">选项2</el-menu-item>
-      <el-menu-item index="2-3">选项3</el-menu-item>
-      <el-submenu index="2-4">
-        <template slot="title">选项4</template>
-        <el-menu-item index="2-4-1">选项1</el-menu-item>
-        <el-menu-item index="2-4-2">选项2</el-menu-item>
-        <el-menu-item index="2-4-3">选项3</el-menu-item>
-      </el-submenu>
-    </el-submenu>
-    <el-menu-item index="3" disabled>消息中心</el-menu-item>
-    <el-menu-item index="4">
-      <a href="https://www.ele.me" target="_blank">订单管理</a>
-    </el-menu-item>
-  </el-menu>
+  <div class="top-wrapper">
+    <div class="top-container clearfix">
+      <a class="logo" href="/">
+      <h2>
+        <img src="@/assets/images/logo.png" alt="logo">
+      </h2>
+      </a>
+      <div class="top-menu-l">
+        <router-link class="item" v-for="(value,key) in menuLeft" :key="key" :to="'/' + key" :class="{'active':$route.path==='/' + key}">{{value}}</router-link>
+      </div>
+      <div class="top-menu-r">
+        <router-link
+          class="item1"
+          to="/message"
+          :class="{'active':$route.path==='/message'}">
+          <el-badge is-dot>
+            <i class="el-icon-chat-dot-square"></i>
+          </el-badge>
+          消息
+        </router-link>
+        <router-link
+          class="item profile-item"
+          to="/profile"
+          :class="{'active':$route.path==='/profile'}">
+          <el-avatar :size="50" :src="circleUrl"></el-avatar>
+          <el-card class="profile-card">
+
+          </el-card>
+        </router-link>
+      </div>
+    </div>
+
+  </div>
+
 </template>
 
 <script>
 export default {
-  name: 'TopMenu'
+  name: 'TopMenu',
+  data() {
+    return {
+      // 菜单栏左侧导航项
+      menuLeft: {
+        home: '首页',
+        practice: '在线练习',
+        exam: '在线考试',
+        error: '我的错题'
+      },
+      circleUrl: 'http://localhost:8080/logo.png'
+
+    }
+  },
+  methods: {
+
+  }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.top-wrapper{
+  position: fixed;
+  background-color: #3d444c;
+  top: 0;
+  width: 100%;
+  // padding: 0 100px;
+  .top-container{
+    width: 1100px;
+    margin:  0 auto;
+    .logo{
+      float: left;
+      height: 54px;
+      line-height: 54px;
+      padding-right: 30px;
+      cursor: pointer;
+      img{
+        width: 50px;
+        height: 50px;
+      }
+    }
+    .top-menu-l{
+      float: left;
+      border-bottom: 0 none;
+    }
+    .top-menu-r{
+      float: right;
+      padding-right: 50px;
+      border-bottom: 0 none;
+      .profile-item{
+        position: relative;
+        &:hover{
+          .profile-card{
+            display: block;
+          }
 
+        }
+      }
+      .profile-card{
+        display: none;
+        position: absolute;
+        top: 54px;
+        right: 0;
+        width: 300px;
+        height: 300px;
+      }
+    }
+    .item{
+      float: left;
+      height: 54px;
+      line-height: 54px;
+      padding: 0 10px;
+      color: #ccc;
+      font-size: 16px;
+      &.active,&:hover{
+        background-color: #000;
+        color: #fff;
+        transition: all 0.3s;
+      }
+      span{
+        margin-top: 2px;
+      }
+    }
+    .item1{
+      float: left;
+      box-sizing: border-box;
+      height: 54px;
+      padding: 15px 10px;
+      color: #ccc;
+      font-size: 16px;
+      &.active,&:hover{
+        background-color: #000;
+        color: #fff;
+        transition: all 0.3s;
+      }
+    }
+  }
+
+}
 </style>

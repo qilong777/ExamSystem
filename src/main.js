@@ -6,11 +6,13 @@ import './plugins/element'
 
 import api from 'api'
 import cookie from 'assets/js/cookie'
+import md5 from 'md5'
 
 Vue.config.productionTip = false
 
 Vue.prototype.$api = api
 Vue.prototype.$cookie = cookie
+Vue.prototype.$md5 = md5
 
 router.beforeEach(async(to, from, next) => {
   if (to.path === '/login') {
@@ -35,7 +37,14 @@ router.beforeEach(async(to, from, next) => {
     }
     return
   }
+  const loading = Vue.prototype.$loading({
+    lock: true,
+    text: 'Loading',
+    spinner: 'el-icon-loading',
+    background: 'rgba(0, 0, 0, 0.7)'
+  })
   const res = await api.isLogin()
+  loading.close()
   if (res.status === 1) {
     next()
   } else {

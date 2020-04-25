@@ -19,7 +19,10 @@ import {
   Tag,
   Tree,
   Select,
-  Option
+  Option,
+  Loading,
+  Badge,
+  Avatar
 } from 'element-ui'
 
 Vue
@@ -40,6 +43,9 @@ Vue
   .use(Tree)
   .use(Select)
   .use(Option)
+  .use(Badge)
+  .use(Avatar)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$loading = Loading.service

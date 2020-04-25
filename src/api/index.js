@@ -1,12 +1,17 @@
 import { request } from '@/network'
+import md5 from 'md5'
 
 // 账号登录接口
-const login = (data) => {
+const login = ({ id, password, verify }) => {
   const url = '/api/user/login'
   return request({
     method: 'post',
     url,
-    data
+    data: {
+      id,
+      password: md5(password),
+      verify
+    }
   })
 }
 
@@ -26,13 +31,17 @@ const sendCode = (email) => {
   return request({ url })
 }
 
-// 发送邮箱验证码
-const changePassword = (data) => {
+// 修改密码
+const changePassword = ({ email, code, password }) => {
   const url = '/api/user/changePassword'
   return request({
     method: 'post',
     url,
-    data
+    data: {
+      email,
+      code,
+      password: md5(password)
+    }
   })
 }
 
