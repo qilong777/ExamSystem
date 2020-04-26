@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.19.1",
     "core-js": "^3.4.4",
+    "echarts": "^4.7.0",
     "element-ui": "^2.4.5",
     "md5": "^2.2.1",
     "vue": "^2.6.10",

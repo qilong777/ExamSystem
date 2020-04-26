@@ -1,11 +1,11 @@
 <template>
   <div class="top-wrapper">
     <div class="top-container clearfix">
-      <a class="logo" href="/">
+      <router-link class="logo" to="/">
       <h2>
         <img src="@/assets/images/logo.png" alt="logo">
       </h2>
-      </a>
+      </router-link>
       <div class="top-menu-l">
         <router-link class="item" v-for="(value,key) in menuLeft" :key="key" :to="'/' + key" :class="{'active':$route.path==='/' + key}">{{value}}</router-link>
       </div>
@@ -23,7 +23,7 @@
           class="item profile-item"
           to="/profile"
           :class="{'active':$route.path==='/profile'}">
-          <el-avatar :size="50" :src="circleUrl"></el-avatar>
+          <el-avatar :size="50" :src="avatarUrl"></el-avatar>
           <el-card class="profile-card">
 
           </el-card>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'TopMenu',
   data() {
@@ -47,10 +48,11 @@ export default {
         exam: '在线考试',
         error: '我的错题',
         grade: '我的成绩'
-      },
-      circleUrl: 'http://localhost:8080/logo.png'
-
+      }
     }
+  },
+  computed: {
+    ...mapState(['avatarUrl'])
   },
   methods: {
 

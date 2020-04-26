@@ -8,6 +8,7 @@
     </router-link>
   </ul>
   <h2 class="learn-title"><el-tag type="" size="large">成绩</el-tag></h2>
+  <div class="grade"></div>
 </div>
 </template>
 
@@ -25,6 +26,69 @@ export default {
         { icon: 'el-icon-user-solid', title: '个人信息', path: '/profile' }
       ]
     }
+  },
+  methods: {
+    createGrade() {
+      // 基于准备好的dom，初始化echarts实例
+      const myChart = this.$echarts.init(document.querySelector('.grade'))
+      // 绘制图表
+      myChart.setOption({
+        timeline: {
+          data: [0, 1, 2],
+          label: {
+            formatter: function(s) { return '第' + Number(s + 1) + '页' }
+          },
+          autoPlay: false,
+          playInterval: 3000,
+          tooltip: { formatter: function(s) { return '第' + Number(s.value + 1) + '页' } }
+        },
+        options: [
+          { title: { text: '本学期考试成绩如下' },
+            tooltip: {},
+            xAxis: {
+              type: 'category',
+              name: '课程',
+              axisTick: {
+                alignWithLabel: true
+              }
+            },
+            yAxis: {
+              name: '成绩',
+              type: 'value',
+              data: ['高等数学1', '英语', '数据结构', '操作系统', '计算机网络']
+            },
+            series: [{
+              name: '成绩',
+              type: 'bar',
+              data: [60, 60, 60, 60, 60, 10],
+              animationDelay: function (idx) {
+                return idx * 10
+              }
+            }]
+          },
+          {
+            xAxis: {
+              data: ['高等数学1', '英语', '数据结构', '操作系统', '计算机网络']
+            },
+            series: [{
+              data: [10, 20, 60, 60, 60, 60]
+            }]
+          },
+          {
+            xAxis: {
+              data: ['高等数学1', '英语', '数据结构', '操作系统', '计算机网络']
+            },
+            series: [{
+              data: [60, 60, 60, 100, 60, 30]
+            }]
+          }
+        ]
+
+      })
+    }
+  },
+  mounted() {
+    this.createGrade()
   }
 }
 </script>
@@ -76,6 +140,11 @@ export default {
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
     margin-bottom: 20px;
+  }
+  .grade{
+    width: 600px;
+    height: 400px;
+    margin: 0 auto;
   }
 }
 
