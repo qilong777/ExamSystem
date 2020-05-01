@@ -7,7 +7,7 @@
       </h2>
       </router-link>
       <div class="top-menu-l">
-        <router-link class="item" v-for="(value,key) in menuLeft" :key="key" :to="'/' + key" :class="{'active':$route.path==='/' + key}">{{value}}</router-link>
+        <router-link class="item" v-for="(value,key) in menuTop" :key="key" :to="'/' + key" :class="{'active':$route.path==='/' + key}">{{value}}</router-link>
       </div>
       <div class="top-menu-r">
         <router-link
@@ -23,9 +23,10 @@
           class="item profile-item"
           to="/profile"
           :class="{'active':$route.path==='/profile'}">
-          <el-avatar :size="50" :src="avatarUrl"></el-avatar>
+          <el-avatar :size="50" :src="userInfo.headImg"></el-avatar>
           <el-card class="profile-card">
-
+            <router-link class="profile-item" to="/profile"><i class="el-icon-user-solid"></i> 我的信息</router-link>
+            <a class="profile-item" @click.prevent="logOut" ><i class="el-icon-switch-button"></i> 退出系统</a>
           </el-card>
         </router-link>
       </div>
@@ -42,7 +43,7 @@ export default {
   data() {
     return {
       // 菜单栏左侧导航项
-      menuLeft: {
+      menuTop: {
         home: '首页',
         practice: '在线练习',
         exam: '在线考试',
@@ -52,10 +53,21 @@ export default {
     }
   },
   computed: {
-    ...mapState(['avatarUrl'])
+    ...mapState(['userInfo'])
   },
   methods: {
-
+    async logOut() {
+      const res = await this.$api.logOut()
+      if (res.status === 1) {
+        this.$message({
+          message: res.msg,
+          type: 'success'
+        })
+        this.$cookie.removeItem('userInfo')
+        this.$cookie.removeItem('sessionId')
+        this.$router.push('/login')
+      }
+    }
   }
 }
 </script>
@@ -66,6 +78,7 @@ export default {
   background-color: #3d444c;
   top: 0;
   width: 100%;
+  z-index: 999;
   // padding: 0 100px;
   .top-container{
     width: 1100px;
@@ -94,6 +107,19 @@ export default {
         &:hover{
           .profile-card{
             display: block;
+            .el-card__body{
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              padding: 10px;
+              .profile-item{
+                flex-grow: 1;
+              }
+              .profile-item:hover{
+                color: #67C23A;
+              }
+            }
           }
 
         }
@@ -103,8 +129,7 @@ export default {
         position: absolute;
         top: 54px;
         right: 0;
-        width: 300px;
-        height: 300px;
+        width: 130px;
       }
     }
     .item{

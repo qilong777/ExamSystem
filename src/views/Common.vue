@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 import TopMenu from 'components/TopMenu'
 export default {
   name: 'Common',
@@ -16,16 +16,16 @@ export default {
     }
   },
   computed: {
-    ...mapState(['avatarUrl'])
+
   },
   methods: {
-    ...mapMutations(['setAvatarUrl'])
+    ...mapActions(['setUserInfo'])
   },
   components: {
     TopMenu
   },
   created() {
-    this.setAvatarUrl('http://localhost:8080/nan.png')
+    this.setUserInfo()
   }
 }
 </script>
@@ -37,5 +37,6 @@ export default {
 }
 .content{
   padding-top: 70px;
+  padding-bottom: 50px;
 }
 </style>

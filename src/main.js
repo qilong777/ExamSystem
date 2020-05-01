@@ -8,6 +8,7 @@ import api from 'api'
 import cookie from 'assets/js/cookie'
 import md5 from 'md5'
 import echarts from 'echarts'
+import moment from 'moment'
 
 Vue.config.productionTip = false
 
@@ -15,6 +16,7 @@ Vue.prototype.$api = api
 Vue.prototype.$cookie = cookie
 Vue.prototype.$md5 = md5
 Vue.prototype.$echarts = echarts
+Vue.prototype.$moment = moment
 
 router.beforeEach(async(to, from, next) => {
   if (to.path === '/login') {
@@ -32,6 +34,7 @@ router.beforeEach(async(to, from, next) => {
           message: res.msg,
           type: 'warning'
         })
+        document.title = '浩考 - ' + to.meta.title
         next()
       }
     } else {
@@ -46,16 +49,19 @@ router.beforeEach(async(to, from, next) => {
     background: 'rgba(0, 0, 0, 0.7)'
   })
   const res = await api.isLogin()
-  loading.close()
+
   if (res.status === 1) {
+    document.title = '浩考 - ' + to.meta.title
     next()
   } else {
     Vue.prototype.$message({
       message: res.msg,
       type: 'error'
     })
+    document.title = '浩考 - 请您先登录'
     next('/login')
   }
+  loading.close()
 })
 
 new Vue({

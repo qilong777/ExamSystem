@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="home-container">
+    <div class="home-container clearfix">
       <div class="home-left">
         <el-tabs type="border-card" v-model="activeName">
           <el-tab-pane name="learn">
@@ -16,32 +16,37 @@
       </div>
       <div class="home-right">
         <el-card class="home-right-t">
-          <h2>周三 2020/04/26</h2>
-          <p>天气:多云转晴；温度：26℃</p>
+          <h2 class="date">{{date}}</h2>
+          <p class="time">{{time}}</p>
           <p class="avatar-wrapper">
             <router-link to="/profile">
-              <el-avatar  class="avatar" :size="80" :src="avatarUrl">廖奕浩</el-avatar>
+              <el-avatar  class="avatar" :size="80" :src="userInfo.headImg">廖奕浩</el-avatar>
             </router-link>
           </p>
-          <p>姓名：廖奕浩</p>
-          <p>学号：201611621123</p>
-          <p>学院：数学与计算机学院</p>
-          <p>班级：计科1161</p>
-
+          <div class="student-info">
+            <p>姓名：{{userInfo.name}}</p>
+            <p>学号：{{userInfo.id}}</p>
+            <p>学院：{{userInfo.academyName}}</p>
+            <p>班级：{{userInfo.className}}</p>
+          </div>
         </el-card>
         <el-card class="home-right-b">
           <ul class="practice-info">
             <li>
               <span>练题数</span>
-              <span>80</span>
+              <span>{{userInfo.practiceNum}}</span>
             </li>
             <li>
-              <span>错题数</span>
-              <span>100</span>
+              <span>答对题</span>
+              <span>{{userInfo.correctNum}}</span>
+            </li>
+            <li>
+              <span>答错题</span>
+              <span>{{userInfo.errorNum}}</span>
             </li>
             <li>
               <span>正确率</span>
-              <span>80%</span>
+              <span>{{ratio}}</span>
             </li>
           </ul>
           <div class="practice-chart">
@@ -62,11 +67,19 @@ export default {
   name: 'Home',
   data () {
     return {
-      activeName: 'learn'
+      activeName: 'learn',
+      date: '',
+      time: '',
+      timer: null,
+      pieChart: null
+
     }
   },
   computed: {
-    ...mapState(['avatarUrl'])
+    ...mapState(['userInfo']),
+    ratio() {
+      return (this.userInfo.correctNum / this.userInfo.practiceNum * 100).toFixed(2) + '%'
+    }
   },
   components: {
     Learn,
@@ -74,9 +87,11 @@ export default {
   },
   methods: {
     createPracticeInfo() {
-      const myChart = this.$echarts.init(document.querySelector('.practice-chart'))
-
-      myChart.setOption({
+      let userInfo = this.userInfo
+      if (!this.pieChart) {
+        this.pieChart = this.$echarts.init(document.querySelector('.practice-chart'))
+      }
+      this.pieChart.setOption({
         title: {
           text: '练习情况情况',
           left: 'center'
@@ -97,8 +112,8 @@ export default {
             radius: '55%',
             center: ['50%', '60%'],
             data: [
-              { value: 80, name: '正确题数' },
-              { value: 20, name: '错误题数' }
+              { value: userInfo.correctNum, name: '正确题数' },
+              { value: userInfo.errorNum, name: '错误题数' }
             ],
             emphasis: {
               itemStyle: {
@@ -110,10 +125,37 @@ export default {
           }
         ]
       })
+    },
+    createTimer() {
+      this.formatTime()
+      if (this.timer) {
+        clearInterval(this.timer)
+        this.timer = null
+      }
+      this.timer = setInterval(() => {
+        this.formatTime()
+      }, 1000)
+    },
+    formatTime() {
+      let weeks = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+      let date = new Date()
+      let week = weeks[date.getDay()]
+      let moment = this.$moment()
+      this.date = week + ' ' + moment.format('YYYY/MM/DD')
+      this.time = moment.format('hh:mm:ss')
     }
   },
+  created() {
+    this.createTimer()
+  },
   mounted() {
-    this.createPracticeInfo()
+    let timer = setInterval(() => {
+      if (this.userInfo) {
+        this.createPracticeInfo()
+        clearInterval(timer)
+        timer = null
+      }
+    }, 100)
   }
 }
 </script>
@@ -137,13 +179,29 @@ export default {
     width: 300px;
     .home-right-t{
       width: 100%;
-      // height: 200px;
+      .date{
+        text-align: center;
+        font-weight: bold;
+        font-size: 24px;
+      }
+      .time{
+        text-align: center;
+        font-size: 20px;
+      }
       .avatar-wrapper{
         text-align: center;
         margin: 20px 0;
         .avatar{
           box-sizing: content-box;
           padding: 5px;
+        }
+      }
+      .student-info{
+        text-align: center;
+        // padding-left: 50px;
+        p{
+          margin: 5px 0;
+          font-size: 18px;
         }
       }
 
@@ -161,7 +219,7 @@ export default {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          margin: 20px;
+          margin: 10px;
           span{
             margin-bottom: 10px;
           }
@@ -169,7 +227,7 @@ export default {
       }
       .practice-chart{
         width: 100%;
-        height: 325px;
+        height: 270px;
       }
     }
   }

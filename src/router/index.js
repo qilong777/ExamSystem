@@ -20,33 +20,41 @@ const routes = [
     children: [
       {
         path: 'home',
-        component: Home
+        component: Home,
+        meta: { title: '首页' }
       },
       {
         path: 'practice',
-        component: Practice
+        component: Practice,
+        meta: { title: '个人练习' }
       },
       {
         path: 'exam',
-        component: Exam
+        component: Exam,
+        meta: { title: '在线考试' }
       },
       {
         path: 'error',
-        component: Error
+        component: Error,
+        meta: { title: '我的错题' }
       },
       {
         path: 'message',
-        component: Message
+        component: Message,
+        meta: { title: '我的消息' }
       },
       {
         path: 'profile',
-        component: Profile
+        component: Profile,
+        meta: { title: '个人信息' }
       }
+
     ]
   },
   {
     path: '/login',
-    component: Login
+    component: Login,
+    meta: { title: '请您先登录' }
   }
 
 ]

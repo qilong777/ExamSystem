@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'Learn',
   data() {
@@ -24,72 +25,138 @@ export default {
         { icon: 'el-icon-trophy', title: '我的成绩', path: '/grade' },
         { icon: 'el-icon-search', title: '查询书籍', path: '/search' },
         { icon: 'el-icon-user-solid', title: '个人信息', path: '/profile' }
-      ]
+      ],
+      barChart: null
     }
+  },
+  computed: {
+    ...mapState(['userInfo']),
+    gradeAxis() {
+      if (this.userInfo.exam) {
+        return this.userInfo.exam.map(ele => ele.examName)
+      } else {
+        return []
+      }
+    },
+    gradeData() {
+      if (this.userInfo.exam) {
+        return this.userInfo.exam.map(ele => ele.score)
+      } else {
+        return []
+      }
+    }
+
   },
   methods: {
     createGrade() {
+      // let grade = this.userInfo.exam
       // 基于准备好的dom，初始化echarts实例
-      const myChart = this.$echarts.init(document.querySelector('.grade'))
+      if (!this.barChart) { this.barChart = this.$echarts.init(document.querySelector('.grade')) }
+      // let options = []
       // 绘制图表
-      myChart.setOption({
+
+      let num = 5
+      let AlldataAxis = this.gradeAxis
+      let Alldata = this.gradeData
+      let dataAxis = ['', '', '', '', '']
+      let data = ['', '', '', '', '']
+      let yeshu = []
+      let len = AlldataAxis.length
+
+      let j = Math.floor((len - 1) / num) + 1
+      for (let i = 0; i < j; i++) {
+        yeshu.push(i)
+      }
+
+      for (let i = 0; i < len && i < num; i++) {
+        dataAxis[i] = AlldataAxis[i]
+        data[i] = Alldata[i]
+      }
+
+      let now = num
+      let option = {
         timeline: {
-          data: [0, 1, 2],
+          data: yeshu,
           label: {
-            formatter: function(s) { return '第' + Number(s + 1) + '页' }
+            formatter: function (s) { return '第' + (s + 1) + '页' }
           },
-          autoPlay: false,
+          autoPlay: true,
           playInterval: 3000,
-          tooltip: { formatter: function(s) { return '第' + Number(s.value + 1) + '页' } }
+          tooltip: { formatter: function (s) { return '第' + (s.value + 1) + '页' } }
         },
         options: [
-          { title: { text: '本学期考试成绩如下' },
-            tooltip: {},
-            xAxis: {
-              type: 'category',
-              name: '课程',
-              axisTick: {
-                alignWithLabel: true
-              }
-            },
-            yAxis: {
-              name: '成绩',
-              type: 'value',
-              data: ['高等数学1', '英语', '数据结构', '操作系统', '计算机网络']
-            },
-            series: [{
-              name: '成绩',
-              type: 'bar',
-              data: [60, 60, 60, 60, 60, 10],
-              animationDelay: function (idx) {
-                return idx * 10
-              }
-            }]
-          },
           {
-            xAxis: {
-              data: ['高等数学1', '英语', '数据结构', '操作系统', '计算机网络']
+            tooltip: { 'trigger': 'axis' },
+            calculable: true,
+            grid: { 'y2': 80 },
+            xAxis: [{
+              axisLabel: {
+                interval: 0,
+                inside: 'true',
+                fontSize: '16',
+                color: '#fff',
+                formatter: function (val) {
+                  let strs = val.split('') // 字符串数组
+                  let str = ''
+                  for (let i = 0, len = strs.length; i < len; i++) { // 遍历字符串数组
+                    str += strs[i]
+                    str += '\n' // 按需要求余
+                  }
+                  return str
+                }
+              },
+              z: 10,
+              'type': 'category',
+              // 'axisLabel':{'interval':0},
+              'data': dataAxis
             },
-            series: [{
-              data: [10, 20, 60, 60, 60, 60]
-            }]
-          },
-          {
-            xAxis: {
-              data: ['高等数学1', '英语', '数据结构', '操作系统', '计算机网络']
-            },
-            series: [{
-              data: [60, 60, 60, 100, 60, 30]
-            }]
+            {
+              'type': 'category',
+              'name': '科目',
+              position: 'bottom'
+            }],
+            yAxis: [
+              {
+                'type': 'value',
+                'name': '成绩',
+                'max': 100
+              }
+            ],
+            series: [
+              {
+                name: '成绩',
+                type: 'bar',
+                data: data
+              }]
           }
         ]
-
-      })
+      }
+      while (now < len) {
+        dataAxis = ['', '', '', '', '']
+        data = ['', '', '', '', '']
+        for (let i = 0; now < len && i < num; i++, now++) {
+          dataAxis[i] = AlldataAxis[now]
+          data[i] = Alldata[now]
+        }
+        let obj = {
+          series: [{ 'data': data }],
+          xAxis: [{ 'data': dataAxis }]
+        }
+        option['options'].push(obj)
+      }
+      this.barChart.setOption(option)
     }
   },
   mounted() {
-    this.createGrade()
+    let timer = setInterval(() => {
+      if (this.userInfo) {
+        this.createGrade()
+        clearInterval(timer)
+        timer = null
+      }
+    }, 100)
   }
+
 }
 </script>
 

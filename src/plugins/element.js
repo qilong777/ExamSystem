@@ -22,7 +22,9 @@ import {
   Option,
   Loading,
   Badge,
-  Avatar
+  Avatar,
+  Transfer,
+  Radio
 } from 'element-ui'
 
 Vue
@@ -45,6 +47,8 @@ Vue
   .use(Option)
   .use(Badge)
   .use(Avatar)
+  .use(Transfer)
+  .use(Radio)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
