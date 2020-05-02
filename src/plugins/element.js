@@ -3,7 +3,7 @@ import {
   Tabs,
   TabPane,
   Button,
-  Form, FormItem, Input, Checkbox,
+  Form, FormItem, Input, Checkbox, CheckboxGroup, RadioGroup,
   Message,
   Container, Header, Main, Aside, Footer,
   Menu, MenuItem, Submenu,
@@ -30,7 +30,7 @@ import {
 Vue
   .use(Tabs).use(TabPane)
   .use(Button)
-  .use(Form).use(FormItem).use(Input).use(Checkbox)
+  .use(Form).use(FormItem).use(Input).use(Checkbox).use(CheckboxGroup).use(RadioGroup)
   .use(Container).use(Header).use(Main).use(Aside).use(Footer)
   .use(Menu).use(MenuItem).use(Submenu)
   .use(Breadcrumb).use(BreadcrumbItem)

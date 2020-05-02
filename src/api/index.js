@@ -14,7 +14,8 @@ const {
   getUserInfo,
   getPracticeType,
   getPracticeByIds,
-  hasPractice
+  hasPractice,
+  getPracticeResult
 } = userApi
 
 export default {
@@ -28,5 +29,6 @@ export default {
   getUserInfo,
   getPracticeType,
   getPracticeByIds,
-  hasPractice
+  hasPractice,
+  getPracticeResult
 }

@@ -6,7 +6,7 @@
         class="select-type"
         filterable
         :filter-method="filterMethod"
-        filter-placeholder="请输入城市拼音"
+        filter-placeholder="请输入题目类型"
         v-model="value"
         :button-texts="['取消', '选择']"
         :titles="['所有题目类型', '已选择的题目类型']"
@@ -82,9 +82,14 @@ export default {
         num: this.num
       })
       if (res.status === 1) {
+        if (res.data.length === 0) {
+          this.$message({
+            message: '该类型题目数量为0，请重新选择',
+            type: 'error'
+          })
+          return
+        }
         this.setPracticeInfo(res.data)
-        console.log(1)
-
         this.$router.push('/practiceStart')
       } else {
         this.$message({

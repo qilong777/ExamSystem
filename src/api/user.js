@@ -38,9 +38,20 @@ const hasPractice = () => {
   })
 }
 
+// 获取练习结果
+const getPracticeResult = (data) => {
+  const url = '/api/user/practiceResult'
+  return request({
+    method: 'post',
+    url,
+    data
+  })
+}
+
 export default {
   getUserInfo,
   getPracticeType,
   getPracticeByIds,
-  hasPractice
+  hasPractice,
+  getPracticeResult
 }

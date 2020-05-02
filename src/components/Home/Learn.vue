@@ -23,7 +23,7 @@ export default {
         { icon: 'el-icon-date', title: '在线考试', path: '/exam' },
         { icon: 'el-icon-notebook-1', title: '我的错题', path: '/error' },
         { icon: 'el-icon-trophy', title: '我的成绩', path: '/grade' },
-        { icon: 'el-icon-search', title: '查询书籍', path: '/search' },
+        // { icon: 'el-icon-search', title: '查询书籍', path: '/search' },
         { icon: 'el-icon-user-solid', title: '个人信息', path: '/profile' }
       ],
       barChart: null

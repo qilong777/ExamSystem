@@ -8,7 +8,6 @@ import api from 'api'
 import cookie from 'assets/js/cookie'
 import md5 from 'md5'
 import echarts from 'echarts'
-import moment from 'moment'
 
 Vue.config.productionTip = false
 
@@ -16,7 +15,6 @@ Vue.prototype.$api = api
 Vue.prototype.$cookie = cookie
 Vue.prototype.$md5 = md5
 Vue.prototype.$echarts = echarts
-Vue.prototype.$moment = moment
 
 router.beforeEach(async(to, from, next) => {
   if (to.path === '/login') {

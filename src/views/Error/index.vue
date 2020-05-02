@@ -1,12 +1,14 @@
 <template>
-  <div class="home">
-    Home
+  <div class="error">
+    <el-card class="error-box">
+
+    </el-card>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
+  name: 'Error',
   data () {
     return {}
   }

@@ -7,10 +7,10 @@
             <span slot="label"><i class="el-icon-date"></i> 学习</span>
             <Learn></Learn>
           </el-tab-pane>
-          <el-tab-pane name="chat">
+          <!-- <el-tab-pane name="chat">
             <span slot="label"><i class="el-icon-s-opportunity"></i> 讨论</span>
             <Chat></Chat>
-          </el-tab-pane>
+          </el-tab-pane> -->
 
         </el-tabs>
       </div>
@@ -55,14 +55,14 @@
         </el-card>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import { mapState } from 'vuex'
 const Learn = () => import('components/Home/Learn')
-const Chat = () => import('components/Home/Chat')
+// const Chat = () => import('components/Home/Chat')
 export default {
   name: 'Home',
   data () {
@@ -82,8 +82,8 @@ export default {
     }
   },
   components: {
-    Learn,
-    Chat
+    Learn
+    // Chat
   },
   methods: {
     createPracticeInfo() {
@@ -140,9 +140,8 @@ export default {
       let weeks = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
       let date = new Date()
       let week = weeks[date.getDay()]
-      let moment = this.$moment()
-      this.date = week + ' ' + moment.format('YYYY/MM/DD')
-      this.time = moment.format('hh:mm:ss')
+      this.date = week + ' ' + moment().format('YYYY/MM/DD')
+      this.time = moment().format('hh:mm:ss')
     }
   },
   created() {
