@@ -12,7 +12,9 @@ const {
 
 const {
   getUserInfo,
-  getPractice
+  getPracticeType,
+  getPracticeByIds,
+  hasPractice
 } = userApi
 
 export default {
@@ -24,5 +26,7 @@ export default {
   autoLogin,
   logOut,
   getUserInfo,
-  getPractice
+  getPracticeType,
+  getPracticeByIds,
+  hasPractice
 }

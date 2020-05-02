@@ -149,7 +149,7 @@ export default {
   },
   mounted() {
     let timer = setInterval(() => {
-      if (this.userInfo) {
+      if (this.userInfo.exam) {
         this.createGrade()
         clearInterval(timer)
         timer = null

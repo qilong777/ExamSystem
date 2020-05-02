@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 const Home = () => import('views/Home')
 const Practice = () => import('views/Practice')
+const PracticeStart = () => import('views/Practice/start')
 const Exam = () => import('views/Exam')
 const Common = () => import('views/Common')
 const Login = () => import('views/Login')
@@ -27,6 +28,11 @@ const routes = [
         path: 'practice',
         component: Practice,
         meta: { title: '个人练习' }
+      },
+      {
+        path: 'practiceStart',
+        component: PracticeStart,
+        meta: { title: '练习开始' }
       },
       {
         path: 'exam',

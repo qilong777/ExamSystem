@@ -11,8 +11,27 @@ const getUserInfo = () => {
 }
 
 // 获取该学生对应的所有练习类型
-const getPractice = () => {
-  const url = '/api/user/practice'
+const getPracticeType = () => {
+  const url = '/api/user/practiceType'
+  return request({
+    method: 'get',
+    url
+  })
+}
+
+// 根据选择的题目类型获取对应的练习题目
+const getPracticeByIds = (data) => {
+  const url = '/api/user/practiceInfo'
+  return request({
+    method: 'post',
+    url,
+    data
+  })
+}
+
+// 根据选择的题目类型获取对应的练习题目
+const hasPractice = () => {
+  const url = '/api/user/hasPractice'
   return request({
     method: 'get',
     url
@@ -21,5 +40,7 @@ const getPractice = () => {
 
 export default {
   getUserInfo,
-  getPractice
+  getPracticeType,
+  getPracticeByIds,
+  hasPractice
 }

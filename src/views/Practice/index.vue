@@ -21,18 +21,30 @@
       </div>
       <div class="select-num">
         <span>练习题数：</span>
-          <el-radio v-model="num" label="1">5题</el-radio>
-          <el-radio v-model="num" label="2">10题</el-radio>
-          <el-radio v-model="num" label="3">20题</el-radio>
+          <el-radio v-model="num" :label="5">5题</el-radio>
+          <el-radio v-model="num" :label="10">10题</el-radio>
+          <el-radio v-model="num" :label="20">20题</el-radio>
       </div>
       <div class="btn-list">
-        <el-button @click="startPractice" type="success">开始答题</el-button>
+        <el-button :loading="loadPractice" @click="startPractice" type="success">开始答题</el-button>
       </div>
     </el-card>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogShow"
+      width="30%"
+      center>
+      <span>{{tip}}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogShow = false">取 消</el-button>
+        <el-button type="primary" @click="toStartPractice">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'Practice',
   data () {
@@ -40,16 +52,19 @@ export default {
       practiceList: [],
       value: [],
       origin: '3',
-      num: '1'
-
+      num: 5,
+      loadPractice: false,
+      tip: '',
+      dialogShow: false
     }
   },
   methods: {
+    ...mapMutations(['setPracticeInfo']),
     filterMethod(query, item) {
       return item.label.indexOf(query) !== -1
     },
-    async getPractice() {
-      const res = await this.$api.getPractice()
+    async getPracticeType() {
+      const res = await this.$api.getPracticeType()
       if (res.status === 1) {
         this.practiceList = res.data.map(ele => {
           return {
@@ -59,12 +74,43 @@ export default {
         })
       }
     },
-    startPractice() {
-      console.log(this.value)
+    async startPractice() {
+      this.loadPractice = true
+      const res = await this.$api.getPracticeByIds({
+        subjectIds: this.value,
+        origin: this.origin,
+        num: this.num
+      })
+      if (res.status === 1) {
+        this.setPracticeInfo(res.data)
+        console.log(1)
+
+        this.$router.push('/practiceStart')
+      } else {
+        this.$message({
+          message: res.msg,
+          type: 'error'
+        })
+      }
+
+      this.loadPractice = false
+    },
+    toStartPractice() {
+      this.$router.push('/practiceStart')
     }
   },
   created() {
-    this.getPractice()
+    this.getPracticeType()
+  },
+  beforeRouteEnter (to, from, next) {
+    next(async vm => {
+      const res = await vm.$api.hasPractice()
+      if (res.status === 1) {
+        vm.setPracticeInfo(res.data)
+        vm.tip = res.msg
+        vm.dialogShow = true
+      }
+    })
   }
 }
 </script>

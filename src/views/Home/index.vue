@@ -150,7 +150,7 @@ export default {
   },
   mounted() {
     let timer = setInterval(() => {
-      if (this.userInfo) {
+      if (this.userInfo.practiceNum) {
         this.createPracticeInfo()
         clearInterval(timer)
         timer = null

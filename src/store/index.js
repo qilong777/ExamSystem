@@ -7,16 +7,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userInfo: {
-
-    }
+    userInfo: {},
+    practiceInfo: []
   },
   mutations: {
-    // 设置用户头像路径
+    // 设置用户信息
     setUserInfo (state, userInfo) {
       userInfo.headImg = baseUrl + userInfo.headImg
       userInfo = Object.assign({}, state.userInfo, userInfo)
       state.userInfo = userInfo
+    },
+    // 设置练习题目
+    setPracticeInfo (state, practiceInfo) {
+      state.practiceInfo = practiceInfo
     }
 
   },
