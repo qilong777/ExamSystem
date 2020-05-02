@@ -10,12 +10,12 @@
         </p>
         <el-radio-group :disabled="finished" class="options-wrapper" v-if="type === 1" v-model="answer1">
           <p class="options" v-for="(item,index) in options" :key="index">
-            <el-radio v-model="answer1" :label="String.fromCharCode(65+index)">{{item}}</el-radio>
+            <el-radio v-model="answer1" :label="String.fromCharCode(65+index)">{{String.fromCharCode(65+index)+ '. ' + item}}</el-radio>
           </p>
         </el-radio-group>
         <el-checkbox-group :disabled="finished" class="options-wrapper" v-else-if="type === 2" v-model="answer2">
           <p class="options" v-for="(item,index) in options" :key="index">
-            <el-checkbox  :label="String.fromCharCode(65+index)">{{item}}</el-checkbox>
+            <el-checkbox  :label="String.fromCharCode(65+index)">{{String.fromCharCode(65+index)+ '. ' + item}}</el-checkbox>
           </p>
         </el-checkbox-group>
         <div class="options-wrapper" v-else></div>
@@ -32,7 +32,7 @@
         <div class="page-list clearfix">
           <li :class="{'now-page':index == nowIndex}" v-for="(item, index) in practiceInfo" :key="index" @click="go(index)">
             {{index+1}}
-            <i v-show="isAnswered(index)" :class="['icon',finished?(correctAnswers[index] === answers[index]?'el-icon-circle-check correct':'el-icon-circle-close error'):'el-icon-circle-check correct']"></i>
+            <i v-show="isAnswered(index)" :class="['icon',getIcon(item,index)]"></i>
           </li>
         </div>
 
@@ -102,10 +102,14 @@ export default {
     },
     yourAnswer() {
       if (this.type === 2) {
-        let answer = this.answers[this.nowIndex] || []
-        return answer.sort().join('')
+        if (this.answers[this.nowIndex] && this.answers[this.nowIndex].length > 0) {
+          let answer = [...this.answers[this.nowIndex]]
+          return answer.sort().join('')
+        } else {
+          return '空'
+        }
       }
-      return this.answers[this.nowIndex] || ''
+      return this.answers[this.nowIndex] || '空'
     },
     isCorrect() {
       return this.correctAnswer === this.yourAnswer
@@ -142,13 +146,36 @@ export default {
     async submitPracitce() {
       this.go(this.nowIndex)
       const res = await this.$api.getPracticeResult({ answers: this.answers })
-      this.finished = true
-      console.log(res)
-      let data = res.data
-      this.correctAnswers = data.map(ele => ele.answer)
-      this.analysises = data.map(ele => ele.analysis)
+      if (res.status === 1) {
+        let data = res.data
+        this.correctAnswers = data.map(ele => ele.answer)
+        this.analysises = data.map(ele => ele.analysis)
 
-      this.dialogShow = false
+        this.dialogShow = false
+        this.finished = true
+      } else {
+        this.$message({
+          message: res.msg,
+          type: 'error'
+        })
+        this.$router.push('/practice')
+      }
+    },
+    getIcon(item, index) {
+      // finished ? (correctAnswers[index] === answers[index] ? 'el-icon-circle-check correct' : 'el-icon-circle-close error') : 'el-icon-circle-check correct'
+      if (this.finished) {
+        let answer
+        if (item.type === 2) {
+          answer = this.answers[index] || []
+          answer = [...answer].sort().join('')
+        } else {
+          answer = this.answers[index] || ''
+        }
+
+        return this.correctAnswers[index] === answer ? 'el-icon-circle-check correct' : 'el-icon-circle-close error'
+      } else {
+        return 'el-icon-circle-check correct'
+      }
     }
   },
   created() {
@@ -193,6 +220,7 @@ export default {
       }
       .options-wrapper{
         min-height: 200px;
+        width: 100%;
       }
       .options{
         margin: 10px 0;
@@ -200,8 +228,12 @@ export default {
         label{
           display: inline-block;
           width: 100%;
+          padding: 5px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
           &:hover{
             color: rgb(41, 110, 179);
+            border-color: rgb(41, 110, 179);
           }
         }
       }

@@ -82,13 +82,6 @@ export default {
         num: this.num
       })
       if (res.status === 1) {
-        if (res.data.length === 0) {
-          this.$message({
-            message: '该类型题目数量为0，请重新选择',
-            type: 'error'
-          })
-          return
-        }
         this.setPracticeInfo(res.data)
         this.$router.push('/practiceStart')
       } else {
@@ -97,7 +90,6 @@ export default {
           type: 'error'
         })
       }
-
       this.loadPractice = false
     },
     toStartPractice() {

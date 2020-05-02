@@ -48,10 +48,30 @@ const getPracticeResult = (data) => {
   })
 }
 
+// 获取错题
+const getErrorPractice = ({ page, pageSize }) => {
+  const url = `/api/user/errorPractice/${page}/${pageSize}`
+  return request({
+    method: 'get',
+    url
+  })
+}
+
+// 获取错题
+const removeError = (id) => {
+  const url = `/api/user/errorPractice/${id}`
+  return request({
+    method: 'delete',
+    url
+  })
+}
+
 export default {
   getUserInfo,
   getPracticeType,
   getPracticeByIds,
   hasPractice,
-  getPracticeResult
+  getPracticeResult,
+  getErrorPractice,
+  removeError
 }

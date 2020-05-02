@@ -24,7 +24,8 @@ import {
   Badge,
   Avatar,
   Transfer,
-  Radio
+  Radio,
+  Popconfirm
 } from 'element-ui'
 
 Vue
@@ -49,6 +50,8 @@ Vue
   .use(Avatar)
   .use(Transfer)
   .use(Radio)
+  .use(Loading)
+  .use(Popconfirm)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
