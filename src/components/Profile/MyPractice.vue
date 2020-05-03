@@ -59,7 +59,7 @@ export default {
         },
         legend: {
           orient: 'vertical',
-          left: '200px',
+          left: '100px',
           top: '30px',
           data: ['正确题数', '错误题数']
         },
