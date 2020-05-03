@@ -1,5 +1,6 @@
 import loginApi from './login'
 import userApi from './user'
+import practiceApi from './practice'
 const {
   login,
   emailLogin,
@@ -12,14 +13,17 @@ const {
 
 const {
   getUserInfo,
+  changeUserMsg
+} = userApi
+
+const {
   getPracticeType,
   getPracticeByIds,
   hasPractice,
   getPracticeResult,
   getErrorPractice,
   removeError
-} = userApi
-
+} = practiceApi
 export default {
   login,
   emailLogin,
@@ -34,5 +38,6 @@ export default {
   hasPractice,
   getPracticeResult,
   getErrorPractice,
-  removeError
+  removeError,
+  changeUserMsg
 }

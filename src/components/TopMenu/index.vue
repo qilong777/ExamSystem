@@ -23,7 +23,7 @@
           class="item profile-item"
           to="/profile"
           :class="{'active':$route.path==='/profile'}">
-          <el-avatar :size="50" :src="userInfo.headImg"></el-avatar>
+          <el-avatar :size="50" :src="headImg"></el-avatar>
           <el-card class="profile-card">
             <router-link class="profile-item" to="/profile"><i class="el-icon-user-solid"></i> 我的信息</router-link>
             <a class="profile-item" @click.prevent="logOut" ><i class="el-icon-switch-button"></i> 退出系统</a>
@@ -53,7 +53,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userInfo'])
+    ...mapState(['userInfo']),
+    headImg() {
+      return this.userInfo.headImg + '#' + Date.now()
+    }
   },
   methods: {
     async logOut() {

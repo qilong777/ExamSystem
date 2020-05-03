@@ -54,13 +54,16 @@ const routes = [
         component: Profile,
         meta: { title: '个人信息' }
       }
-
     ]
   },
   {
     path: '/login',
     component: Login,
     meta: { title: '请您先登录' }
+  },
+  {
+    path: '*',
+    component: () => import('views/error-page/404')
   }
 
 ]

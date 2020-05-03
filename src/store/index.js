@@ -17,6 +17,12 @@ export default new Vuex.Store({
       userInfo = Object.assign({}, state.userInfo, userInfo)
       state.userInfo = userInfo
     },
+    setHeadImg(state, headImg) {
+      state.userInfo = Object.assign({}, state.userInfo, { headImg: baseUrl + headImg })
+    },
+    setMsg(state, msg) {
+      state.userInfo = Object.assign({}, state.userInfo, { msg })
+    },
     // 设置练习题目
     setPracticeInfo (state, practiceInfo) {
       state.practiceInfo = practiceInfo
