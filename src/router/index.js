@@ -10,6 +10,7 @@ const Login = () => import('views/Login')
 const Error = () => import('views/Error')
 const Message = () => import('views/Message')
 const Profile = () => import('views/Profile')
+const Grade = () => import('views/Grade')
 
 Vue.use(VueRouter)
 
@@ -53,6 +54,11 @@ const routes = [
         path: 'profile',
         component: Profile,
         meta: { title: '个人信息' }
+      },
+      {
+        path: 'grade',
+        component: Grade,
+        meta: { title: '我的成绩' }
       }
     ]
   },

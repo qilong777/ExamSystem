@@ -23,6 +23,9 @@ export default new Vuex.Store({
     setMsg(state, msg) {
       state.userInfo = Object.assign({}, state.userInfo, { msg })
     },
+    setEmail(state, email) {
+      state.userInfo = Object.assign({}, state.userInfo, { email })
+    },
     // 设置练习题目
     setPracticeInfo (state, practiceInfo) {
       state.practiceInfo = practiceInfo

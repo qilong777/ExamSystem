@@ -36,6 +36,9 @@
     <p>
       <span>班级：</span>{{userInfo.className}}
     </p>
+    <p>
+      <span>邮箱：</span>{{userInfo.email}}
+    </p>
   </div>
   <p class="msg clearfix">
       <span>个性签名：</span>

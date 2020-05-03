@@ -13,7 +13,10 @@ const {
 
 const {
   getUserInfo,
-  changeUserMsg
+  changeUserMsg,
+  changePwd,
+  bindEmail,
+  sendBindCode
 } = userApi
 
 const {
@@ -39,5 +42,8 @@ export default {
   getPracticeResult,
   getErrorPractice,
   removeError,
-  changeUserMsg
+  changeUserMsg,
+  changePwd,
+  bindEmail,
+  sendBindCode
 }

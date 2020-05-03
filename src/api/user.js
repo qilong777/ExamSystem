@@ -1,5 +1,5 @@
 import { request } from '@/network'
-
+import md5 from 'md5'
 // 账号登录接口
 const getUserInfo = () => {
   const url = '/api/user/userInfo'
@@ -30,8 +30,36 @@ const changeUserMsg = (msg) => {
   })
 }
 
+const changePwd = (pwd) => {
+  const url = '/api/user/pwd'
+  return request({
+    method: 'put',
+    url,
+    data: {
+      pwd: md5(pwd)
+    }
+  })
+}
+const bindEmail = (data) => {
+  const url = '/api/user/bindEmail'
+  return request({
+    method: 'post',
+    url,
+    data
+  })
+}
+
+// 发送邮箱验证码
+const sendBindCode = (email) => {
+  const url = `/api/user/sendCode?email=${email}`
+  return request({ url })
+}
+
 export default {
   getUserInfo,
   uploadUserHead,
-  changeUserMsg
+  changeUserMsg,
+  changePwd,
+  bindEmail,
+  sendBindCode
 }
