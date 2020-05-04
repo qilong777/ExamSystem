@@ -10,7 +10,7 @@
     <el-tab-pane  label="绑定邮箱">
       <BindEmail/>
     </el-tab-pane>
-    <el-tab-pane  label="练习记录">
+    <el-tab-pane  label="练习记录" :lazy="true">
       <MyPractice/>
     </el-tab-pane>
   </el-tabs>

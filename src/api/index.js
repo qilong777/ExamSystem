@@ -16,7 +16,9 @@ const {
   changeUserMsg,
   changePwd,
   bindEmail,
-  sendBindCode
+  sendBindCode,
+  readMessage,
+  removeMessage
 } = userApi
 
 const {
@@ -25,7 +27,10 @@ const {
   hasPractice,
   getPracticeResult,
   getErrorPractice,
-  removeError
+  removeError,
+  getAllExam,
+  getExamById,
+  getExamResult
 } = practiceApi
 export default {
   login,
@@ -45,5 +50,10 @@ export default {
   changeUserMsg,
   changePwd,
   bindEmail,
-  sendBindCode
+  sendBindCode,
+  readMessage,
+  removeMessage,
+  getAllExam,
+  getExamById,
+  getExamResult
 }

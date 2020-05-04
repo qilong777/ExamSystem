@@ -14,7 +14,7 @@
           class="item1"
           to="/message"
           :class="{'active':$route.path==='/message'}">
-          <el-badge is-dot>
+          <el-badge is-dot :hidden="!isShowPoint">
             <i class="el-icon-chat-dot-square"></i>
           </el-badge>
           消息
@@ -55,7 +55,19 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     headImg() {
-      return this.userInfo.headImg + '#' + Date.now()
+      if (this.userInfo.headImg) {
+        return this.userInfo.headImg + '#' + Date.now()
+      } else {
+        return ''
+      }
+    },
+    isShowPoint() {
+      // console.log(this.userInfo.message.some(ele => ele.isRead === 0))
+      if (this.userInfo.message) {
+        return this.userInfo.message.some(ele => ele.isRead === 0)
+      } else {
+        return false
+      }
     }
   },
   methods: {

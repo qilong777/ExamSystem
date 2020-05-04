@@ -55,11 +55,29 @@ const sendBindCode = (email) => {
   return request({ url })
 }
 
+const readMessage = (id) => {
+  const url = `/api/user/message/${id}`
+  return request({
+    method: 'put',
+    url
+  })
+}
+
+const removeMessage = (id) => {
+  const url = `/api/user/message/${id}`
+  return request({
+    method: 'delete',
+    url
+  })
+}
+
 export default {
   getUserInfo,
   uploadUserHead,
   changeUserMsg,
   changePwd,
   bindEmail,
-  sendBindCode
+  sendBindCode,
+  readMessage,
+  removeMessage
 }

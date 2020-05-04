@@ -56,11 +56,38 @@ const removeError = (id) => {
   })
 }
 
+const getAllExam = () => {
+  const url = `/api/exam/exam`
+  return request({
+    url
+  })
+}
+
+const getExamById = (id) => {
+  const url = `/api/exam/exam/${id}`
+  return request({
+    url
+  })
+}
+
+// 获取练习结果
+const getExamResult = (data) => {
+  const url = '/api/exam/examResult'
+  return request({
+    method: 'post',
+    url,
+    data
+  })
+}
+
 export default {
   getPracticeType,
   getPracticeByIds,
   hasPractice,
   getPracticeResult,
   getErrorPractice,
-  removeError
+  removeError,
+  getAllExam,
+  getExamById,
+  getExamResult
 }

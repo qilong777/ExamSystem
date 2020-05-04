@@ -26,7 +26,8 @@ import {
   Transfer,
   Radio,
   Popconfirm,
-  Upload
+  Upload,
+  Progress
 } from 'element-ui'
 
 Vue
@@ -54,6 +55,7 @@ Vue
   .use(Loading)
   .use(Popconfirm)
   .use(Upload)
+  .use(Progress)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
