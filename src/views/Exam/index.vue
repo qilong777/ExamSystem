@@ -139,17 +139,20 @@ export default {
       }
     },
     async start() {
-      if (this.timer) {
-        clearInterval(this.timer)
-        this.timer = null
-      }
+      this.clearTimer()
       const res = await this.$api.getExamById(this.examId)
 
       if (res.status === 1) {
         this.$message.success('考试开始')
         this.examInfo = res.data.examInfo
         this.started = true
-        this.clearTimer()
+        this.timer = setInterval(() => {
+          this.remainTimeStamp -= 1000
+          if (this.remainTimeStamp <= 0) {
+            this.submitExam()
+            this.clearTimer()
+          }
+        }, 1000)
       } else {
         this.$message.error(res.msg)
       }
@@ -182,7 +185,15 @@ export default {
       const res = await this.$api.getExamResult({ answers: this.answers })
       if (res.status === 1) {
         this.result = res.data.result
+        this.examId = ''
         this.started = false
+        this.allTimeStamp = 1
+        this.remainTimeStamp = 0
+        this.examInfo = []
+        this.nowIndex = 0
+        this.answer1 = ''
+        this.answer2 = []
+        this.answers = []
         this.$message.success('试卷提交成功')
         this.getAllExam()
         this.clearTimer()
@@ -193,7 +204,7 @@ export default {
       }
     },
     toSubmit() {
-      this.$confirm('确定提交试卷吗？?', '提示', {
+      this.$confirm('确定提交试卷吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -214,7 +225,26 @@ export default {
     this.getAllExam()
   },
   beforeDestroy() {
-    this.clearTimer()
+    if (this.started) {
+      this.submitExam()
+    } else {
+      this.clearTimer()
+    }
+  },
+  beforeRouteLeave (to, from, next) {
+    if (this.started) {
+      this.$confirm('确定要离开吗？试卷会自动上传', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        next()
+      }).catch(() => {
+
+      })
+    } else {
+      next()
+    }
   }
 
 }
