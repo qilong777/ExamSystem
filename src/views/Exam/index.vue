@@ -27,6 +27,7 @@
             <p class="title">
               {{nowIndex+1}}. {{question}}
               <input v-if="type === 3" v-model="answer1"/>
+              ({{score}}分)
             </p>
             <el-radio-group class="options-wrapper" v-if="type === 1" v-model="answer1">
               <p class="options" v-for="(item,index) in options" :key="index">
@@ -116,6 +117,13 @@ export default {
     type() {
       if (this.examInfo[this.nowIndex]) {
         return this.examInfo[this.nowIndex].type
+      } else {
+        return ''
+      }
+    },
+    score() {
+      if (this.examInfo[this.nowIndex]) {
+        return this.examInfo[this.nowIndex].score
       } else {
         return ''
       }
