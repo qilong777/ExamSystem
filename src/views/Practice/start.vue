@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'PracticeStart',
   data () {
@@ -120,6 +120,7 @@ export default {
 
   },
   methods: {
+    ...mapActions(['setUserInfo']),
     next() {
       this.go(this.nowIndex + 1)
     },
@@ -153,6 +154,7 @@ export default {
 
         this.dialogShow = false
         this.finished = true
+        this.setUserInfo()
       } else {
         this.$message({
           message: res.msg,

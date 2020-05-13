@@ -148,6 +148,10 @@ export default {
     },
     async start() {
       this.clearTimer()
+      if (this.examId === '') {
+        this.$message.error('请选择考试科目')
+        return
+      }
       const res = await this.$api.getExamById(this.examId)
 
       if (res.status === 1) {
